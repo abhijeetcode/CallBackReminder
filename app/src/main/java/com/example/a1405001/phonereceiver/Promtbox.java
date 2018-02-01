@@ -2,19 +2,21 @@ package com.example.a1405001.phonereceiver;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.BroadcastReceiver;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentFilter;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import static android.provider.ContactsContract.Intents.Insert.ACTION;
 
-public class Promtbox extends Activity {
+public class Promtbox extends Activity implements TimePickerDialog.OnTimeSetListener,DatePickerDialog.OnDateSetListener {
     AlertDialog alertDialog;
     private String selectedItem;
     final CharSequence[] items = {" 15 min later ", " 30 min later ", " Coustomized "};
@@ -59,5 +61,15 @@ public class Promtbox extends Activity {
                 });
         levelDialog = builder.create();
         levelDialog.show();
+    }
+
+    @Override
+    public void onTimeSet(TimePicker timePicker, int i, int i1) {
+
+    }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+
     }
 }
