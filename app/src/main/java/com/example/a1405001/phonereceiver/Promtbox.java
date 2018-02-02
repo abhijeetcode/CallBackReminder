@@ -29,7 +29,6 @@ public class Promtbox extends Activity {
     Intent intent;
     final CharSequence[] items = {"15 min later", "30 min later", "Coustomized"};
     //MyPhoneReceiver myPhoneReceiver = new MyPhoneReceiver();
-    String phone_number;
     private Context context;
     private static final String TIME_PATTERN = "HH:mm";
     private Calendar calendar;
@@ -40,6 +39,7 @@ public class Promtbox extends Activity {
     int month;
     int year;
     int day;
+    String phone_number;
     Date dateTime;
     HashMap<String, String> attributes;
     HashMap<String, Object> data;
@@ -49,7 +49,6 @@ public class Promtbox extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AlertDialog levelDialog;
-        // Creating and Building the Dialog
         //Database
         intent = getIntent();
         attributes = new HashMap<>();
@@ -102,9 +101,11 @@ public class Promtbox extends Activity {
                             mins = Integer.parseInt((arrOfStr[0]));
                             hours = Integer.parseInt((arrOfStr[1]));
                             Log.d("Nowtime ", " " + phone_number);
-                            //Insert
+
+
+                            Toast.makeText(getApplicationContext(), ""+phone_number+" "+mins+" "+hours+" "+year+" "+ month +" "+day,Toast.LENGTH_LONG).show();
+                                    //Insert
                             //InsertData(phone_number, mins, hours, year, month, day);
-                            //Toast.makeText(getApplicationContext(), " " + mins + " " + hours, Toast.LENGTH_LONG).show();
                         } else {
                             now.add(Calendar.MINUTE, 30);
                             year = now.get(Calendar.YEAR);
@@ -112,15 +113,14 @@ public class Promtbox extends Activity {
                             day = now.get(Calendar.DATE);
                             s = df.format(now.getTime());
                             String[] arrOfStr = s.split(":");
-                            //Log.d("Nowtime ",arrOfStr[0]+" "+arrOfStr[1]);
                             mins = Integer.parseInt((arrOfStr[0]));
                             hours = Integer.parseInt((arrOfStr[1]));
                             Log.d("Nowtime ", " " + phone_number);
                             //Insert
                             //InsertData(phone_number, mins, hours, year, month, day);
-                            Log.d("Now Time", mins + " " + hours);
-                            //Log.d("PhoneNumber",phone_number);
-                            //Toast.makeText(getApplicationContext(), " " + s + " " + day + " " + month + " " + year, Toast.LENGTH_LONG).show();
+                            Log.v("All attributes",phone_number+" "+mins+" "+hours+" "+year+" "+ month +" "+day);
+                            Toast.makeText(getApplicationContext(), ""+phone_number+" "+mins+" "+hours+" "+year+" "+ month +" "+day,
+                                    Toast.LENGTH_SHORT).show();
                         }
                         dialogInterface.cancel();
                     }
@@ -162,13 +162,31 @@ public class Promtbox extends Activity {
                 alertDialog.dismiss();
             }
         });
+
+
+        List< HashMap<String,String> > list;
+        String q = "SELECT * FROM Miscall";
+        list = shortdb.query(q);
+
+        for(HashMap<String,String> hmap:list) {
+
+            // hmap.get("Attribute_Name")
+
+            String numbercaller = hmap.get("NUMBER");
+            String m = hmap.get("MINUTE");
+            String h = hmap.get("HOUR");
+            String d = hmap.get("DATE");
+            String mo = hmap.get("MONTH");
+            String y = hmap.get("YEAR");
+            Log.v("Database "," "+m+" "+h+" "+d+" "+mo+" "+y+" "+numbercaller);
+        }
         alertDialog.setView(dialogView);
         alertDialog.show();
 
-    }
 
+    }
     public void InsertData(String phone_number, int mins, int hours, int year, int month, int day) {
-        attributes.put("NUMBER", phone_number);
+        data.put("NUMBER", phone_number);
         data.put("MINUTE", mins);
         data.put("HOUR", hours);
         data.put("DATE", year);

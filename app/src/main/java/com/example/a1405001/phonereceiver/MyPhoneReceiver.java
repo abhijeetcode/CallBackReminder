@@ -21,7 +21,7 @@ public class MyPhoneReceiver extends BroadcastReceiver {
             String state = extras.getString(TelephonyManager.EXTRA_STATE);
             phoneNumber = extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
 
-            Log.d("Mobile Number"," "+promtbox.phone_number);
+            Log.d("Mobile Number", " " + promtbox.phone_number);
             if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
                 phoneNumber = extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
                 Log.v("Phone Ringing", phoneNumber);
@@ -32,9 +32,10 @@ public class MyPhoneReceiver extends BroadcastReceiver {
             }
         }
     }
+
     private void displayDialog(Context context) {
         Intent i = new Intent(context, Promtbox.class);
-        i.putExtra("phoneNumber",phoneNumber);
+        i.putExtra("phoneNumber", phoneNumber);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(i);
     }
