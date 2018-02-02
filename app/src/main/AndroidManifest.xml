@@ -28,7 +28,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".Promtbox"></activity>
+        <activity android:name=".Promtbox"
+            ></activity>
     </application>
 
 </manifest>
