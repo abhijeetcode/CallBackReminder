@@ -27,7 +27,7 @@ import shortroid.com.shortroid.ShortRoidDB.ShortRoidDB;
 
 public class Promtbox extends Activity {
     AlertDialog alertDialog;
-    private String selectedItem;
+    public String selectedItem;
     Intent intent;
     final CharSequence[] items = {"15 min later", "30 min later", "Coustomized"};
     private Context context;
@@ -74,15 +74,18 @@ public class Promtbox extends Activity {
         builder.setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int num) {
                 AlertDialog alertDialog = new AlertDialog.Builder(Promtbox.this).create(); //Read Update
+
                 switch (num) {
                     case 0:
                         selectedItem = (String) items[num];
+                        Log.d("debugg",num+"");
                         break;
                     case 1:
                         selectedItem = (String) items[num];
                         break;
                     case 2:
                         selectedItem = (String) items[num];
+                        Log.d("debugg",num+"");
                         break;
                 }
             }
@@ -92,11 +95,34 @@ public class Promtbox extends Activity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String s;
-                        Calendar now = Calendar.getInstance();
                         SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
                         if (selectedItem == "Coustomized") {
                             DisplayTimeDate();
-                        } else if (selectedItem == "15 min later") {
+                        } else if (selectedItem=="30 min later"){
+                            Log.d("Radiobutton ","30 min");
+                            Calendar now1 = Calendar.getInstance();
+                            now1.add(Calendar.MINUTE, 30);
+                            year = now1.get(Calendar.YEAR);
+                            month = (now1.get(Calendar.MONTH) + 1);
+                            day = now1.get(Calendar.DATE);
+                            s = df.format(now1.getTime());
+                            String[] arrOfStr = s.split(":");
+                            hours = Integer.parseInt((arrOfStr[0]));
+                            mins = Integer.parseInt((arrOfStr[1]));
+
+                            //Insert into DataDB
+                            InsertData(phone_number, hours, mins, year, month, day);
+
+                            //Notify me by Notification
+                            cal.add(Calendar.MINUTE, 30);
+                            alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+
+                            Toast.makeText(getApplicationContext(), "" + phone_number + " " + mins + " " + hours + " " + year + " " + month + " " + day,
+                                    Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            Calendar now = Calendar.getInstance();
+                            now.add(Calendar.MINUTE, 15);
                             year = now.get(Calendar.YEAR);
                             month = (now.get(Calendar.MONTH) + 1);
                             day = now.get(Calendar.DATE);
@@ -106,28 +132,14 @@ public class Promtbox extends Activity {
                             mins = Integer.parseInt((arrOfStr[1]));
                             Toast.makeText(getApplicationContext(), "" + phone_number + " " + mins + " " + hours + " " + year + " " + month + " " + day, Toast.LENGTH_LONG).show();
                             //Insert into dataDB
+                            Log.d("Radiobutton ","15 min");
                             InsertData(phone_number, hours, mins, year, month, day);
 
                             //Notify by Notifiction
+                            cal.add(Calendar.MINUTE, 15);
                             alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
-                            cal.set(Calendar.SECOND, 30);
-                        } else {
-                            year = now.get(Calendar.YEAR);
-                            month = (now.get(Calendar.MONTH) + 1);
-                            day = now.get(Calendar.DATE);
-                            s = df.format(now.getTime());
-                            String[] arrOfStr = s.split(":");
-                            hours = Integer.parseInt((arrOfStr[0]));
-                            mins = Integer.parseInt((arrOfStr[1]));
 
-                            //Insert into DataDB
-                            InsertData(phone_number, hours, mins, year, month, day);
 
-                            //Notify me by Notification
-                            alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
-                            cal.set(Calendar.SECOND, 30);
-                            Toast.makeText(getApplicationContext(), "" + phone_number + " " + mins + " " + hours + " " + year + " " + month + " " + day,
-                                    Toast.LENGTH_SHORT).show();
                         }
                         dialogInterface.cancel();
                     }
@@ -138,7 +150,6 @@ public class Promtbox extends Activity {
                         dialogInterface.cancel();
                     }
                 });
-
         levelDialog = builder.create();
         levelDialog.show();
     }
@@ -171,11 +182,13 @@ public class Promtbox extends Activity {
 
                 //Insert into DataDB
                 InsertData(phone_number, hours, mins, year, month, day);
+                Toast.makeText(getApplicationContext(), "Inserted",Toast.LENGTH_SHORT).show();
 
                 //Notify me by Notifiacation
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
                 calendar.set(Calendar.HOUR_OF_DAY, hours);
                 cal.set(Calendar.MINUTE, mins);
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+
                 alertDialog.dismiss();
             }
         });

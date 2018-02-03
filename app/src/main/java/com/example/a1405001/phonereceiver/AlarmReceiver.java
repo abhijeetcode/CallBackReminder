@@ -34,7 +34,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         Notification.Builder builder = new Notification.Builder(context).setDefaults(Notification.DEFAULT_SOUND);
 
-        
+
         Notification notification = builder.setContentTitle("Callback Reminder")
                 .setContentText("Notification From PhoneRecever..")
                 .setTicker("Mobile")
