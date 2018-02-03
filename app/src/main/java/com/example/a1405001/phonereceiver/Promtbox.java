@@ -202,9 +202,9 @@ public class Promtbox extends Activity {
 
                 //Notify me by Notifiacation
                 calendar.set(Calendar.HOUR_OF_DAY, hours);
-                //cal.set(Calendar.MINUTE, mins);
-                //cal.set(Calendar.HOUR,hours);
-                cal.set(Calendar.SECOND,5);
+                cal.set(Calendar.MINUTE, mins);
+                cal.set(Calendar.HOUR,hours);
+                //cal.set(Calendar.SECOND,5);
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
 
                 alertDialog.dismiss();
