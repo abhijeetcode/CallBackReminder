@@ -100,9 +100,7 @@ public class Promtbox extends Activity {
                             String[] arrOfStr = s.split(":");
                             mins = Integer.parseInt((arrOfStr[0]));
                             hours = Integer.parseInt((arrOfStr[1]));
-                            Log.d("Nowtime ", " " + phone_number);
-
-
+                            //Log.d("Nowtime ", " " + phone_number);
                             Toast.makeText(getApplicationContext(), "" + phone_number + " " + mins + " " + hours + " " + year + " " + month + " " + day, Toast.LENGTH_LONG).show();
                             //Insert
                             InsertData(phone_number, mins, hours, year, month, day);
@@ -117,8 +115,8 @@ public class Promtbox extends Activity {
                             hours = Integer.parseInt((arrOfStr[1]));
                             Log.d("Nowtime ", " " + phone_number);
                             //Insert
-                            //InsertData(phone_number, mins, hours, year, month, day);
-                            Log.v("All attributes", phone_number + " " + mins + " " + hours + " " + year + " " + month + " " + day);
+                            InsertData(phone_number, mins, hours, year, month, day);
+                            //Log.v("All attributes", phone_number + " " + mins + " " + hours + " " + year + " " + month + " " + day);
                             Toast.makeText(getApplicationContext(), "" + phone_number + " " + mins + " " + hours + " " + year + " " + month + " " + day,
                                     Toast.LENGTH_SHORT).show();
                         }
@@ -131,6 +129,8 @@ public class Promtbox extends Activity {
                         dialogInterface.cancel();
                     }
                 });
+
+        retriveAllData();
         levelDialog = builder.create();
         levelDialog.show();
     }
@@ -156,9 +156,9 @@ public class Promtbox extends Activity {
                 day = calendar.get(Calendar.DATE);
                 mins = dateTime.getMinutes();
                 hours = dateTime.getHours();
-                Log.v("DateTimePicker Debugg", "" + dateTime);
-                Log.v("DateTimePicker Debugg", "" + day + " " + month + " " + year + " " + hours + " " + mins);
-                //InsertData(phone_number, year, month, day, hours, mins);
+                //Log.v("DateTimePicker Debugg", "" + dateTime);
+                //Log.v("DateTimePicker Debugg", "" + day + " " + month + " " + year + " " + hours + " " + mins);
+                InsertData(phone_number, year, month, day, hours, mins);
                 alertDialog.dismiss();
             }
         });
@@ -167,6 +167,8 @@ public class Promtbox extends Activity {
     }
 
     public void InsertData(String phone_number, int mins, int hours, int year, int month, int day) {
+
+        Log.v("InsertDataIntoDB", phone_number + " " + mins + " " + hours + " " + year + " " + month + " " + day);
         data = new HashMap<>();
         data.put("NUMBER", phone_number);
         data.put("MINUTE", mins);
@@ -175,5 +177,21 @@ public class Promtbox extends Activity {
         data.put("MONTH", month);
         data.put("YEAR", day);
         shortdb.insert(data);
+    }
+
+
+    public void retriveAllData() {
+        String PhoneNumber, Time, date;
+        List<HashMap<String, String>> list;
+        String q = "SELECT * FROM Miscall";
+        list = shortdb.query(q);
+
+        for (HashMap<String, String> hmap : list) {
+            PhoneNumber = hmap.get("NUMBER");
+            Time = hmap.get("MINUTE") + ":" + hmap.get("HOUR");
+            date = hmap.get("DATE") + "/" + hmap.get("MONTH") + "/" + hmap.get("YEAR");
+            //Log.v("RetriveDataToDB", PhoneNumber + " " + Time + " " + date);
+        }
+
     }
 }

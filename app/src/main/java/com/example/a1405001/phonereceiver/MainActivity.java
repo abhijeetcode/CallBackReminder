@@ -1,5 +1,6 @@
 package com.example.a1405001.phonereceiver;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -49,13 +50,14 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
-
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 CallBackDetails movie = callList.get(position);
                 //After click go to Another Activity
                 Toast.makeText(getApplicationContext(), movie.getMoblieNumber() + " is selected!", Toast.LENGTH_SHORT).show();
+                Intent myIntent = new Intent(MainActivity.this, ReminderUpdateRemove.class);
+                startActivity(myIntent);
             }
             @Override
             public void onLongClick(View view, int position) {
@@ -63,8 +65,9 @@ public class MainActivity extends AppCompatActivity {
         }));
         prepareData();
     }
+
     private void prepareData() {
-        String phoneNumber, Date, Time;
+        String phoneNumber, DD, TT;
         CallBackDetails callBackDetails;
         List<HashMap<String, String>> list;
         String q = "SELECT * FROM Miscall";
@@ -72,11 +75,29 @@ public class MainActivity extends AppCompatActivity {
 
         for (HashMap<String, String> hmap : list) {
             phoneNumber = hmap.get("NUMBER");
-            Time = hmap.get("MINUTE") + ":" + hmap.get("HOUR");
-            Date = hmap.get("DATE") + "/" + hmap.get("MONTH") + "/" + hmap.get("YEAR");
-            //Log.v("Sara Values print ", " " + m + " " + h + " " + d + " " + mo + " " + y + " " + numbercaller);
-            callBackDetails = new CallBackDetails(phoneNumber,Time,Date);
+            TT = hmap.get("MINUTE") + ":" + hmap.get("HOUR");
+            DD = hmap.get("DATE") + "/" + hmap.get("MONTH") + "/" + hmap.get("YEAR");
+            Log.v("NewRetriveDataToDB", phoneNumber + " " + TT + " " + DD);
+            callBackDetails = new CallBackDetails(phoneNumber, TT, DD);
             callList.add(callBackDetails);
         }
     }
+
+    public void sendData()
+    {
+        CallBackDetails callBackDetails;
+        callBackDetails = new CallBackDetails("+919692209926","8:30", "11/08/1994");
+        callList.add(callBackDetails);
+
+        callBackDetails = new CallBackDetails("9692209926","8:30", "11/08/1994");
+        callList.add(callBackDetails);
+
+        callBackDetails = new CallBackDetails("9692209926","8:30", "11/08/1994");
+        callList.add(callBackDetails);
+
+        callBackDetails = new CallBackDetails("9692209926","8:30", "11/08/1994");
+        callList.add(callBackDetails);
+    }
+
+
 }

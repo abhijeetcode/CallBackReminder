@@ -24,12 +24,12 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.PHONE_STATE"></action>
+                <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
 
-        <activity android:name=".Promtbox"
-            ></activity>
+        <activity android:name=".Promtbox" />
+        <activity android:name=".ReminderUpdateRemove"></activity>
     </application>
 
 </manifest>
