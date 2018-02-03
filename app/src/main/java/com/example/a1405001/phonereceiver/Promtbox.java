@@ -103,9 +103,9 @@ public class Promtbox extends Activity {
                             Log.d("Nowtime ", " " + phone_number);
 
 
-                            Toast.makeText(getApplicationContext(), ""+phone_number+" "+mins+" "+hours+" "+year+" "+ month +" "+day,Toast.LENGTH_LONG).show();
-                                    //Insert
-                            //InsertData(phone_number, mins, hours, year, month, day);
+                            Toast.makeText(getApplicationContext(), "" + phone_number + " " + mins + " " + hours + " " + year + " " + month + " " + day, Toast.LENGTH_LONG).show();
+                            //Insert
+                            InsertData(phone_number, mins, hours, year, month, day);
                         } else {
                             now.add(Calendar.MINUTE, 30);
                             year = now.get(Calendar.YEAR);
@@ -118,8 +118,8 @@ public class Promtbox extends Activity {
                             Log.d("Nowtime ", " " + phone_number);
                             //Insert
                             //InsertData(phone_number, mins, hours, year, month, day);
-                            Log.v("All attributes",phone_number+" "+mins+" "+hours+" "+year+" "+ month +" "+day);
-                            Toast.makeText(getApplicationContext(), ""+phone_number+" "+mins+" "+hours+" "+year+" "+ month +" "+day,
+                            Log.v("All attributes", phone_number + " " + mins + " " + hours + " " + year + " " + month + " " + day);
+                            Toast.makeText(getApplicationContext(), "" + phone_number + " " + mins + " " + hours + " " + year + " " + month + " " + day,
                                     Toast.LENGTH_SHORT).show();
                         }
                         dialogInterface.cancel();
@@ -162,35 +162,18 @@ public class Promtbox extends Activity {
                 alertDialog.dismiss();
             }
         });
-
-
-        List< HashMap<String,String> > list;
-        String q = "SELECT * FROM Miscall";
-        list = shortdb.query(q);
-
-        for(HashMap<String,String> hmap:list) {
-
-            // hmap.get("Attribute_Name")
-
-            String numbercaller = hmap.get("NUMBER");
-            String m = hmap.get("MINUTE");
-            String h = hmap.get("HOUR");
-            String d = hmap.get("DATE");
-            String mo = hmap.get("MONTH");
-            String y = hmap.get("YEAR");
-            Log.v("Database "," "+m+" "+h+" "+d+" "+mo+" "+y+" "+numbercaller);
-        }
         alertDialog.setView(dialogView);
         alertDialog.show();
-
-
     }
+
     public void InsertData(String phone_number, int mins, int hours, int year, int month, int day) {
+        data = new HashMap<>();
         data.put("NUMBER", phone_number);
         data.put("MINUTE", mins);
         data.put("HOUR", hours);
         data.put("DATE", year);
         data.put("MONTH", month);
         data.put("YEAR", day);
+        shortdb.insert(data);
     }
 }
