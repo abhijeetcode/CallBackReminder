@@ -27,7 +27,7 @@ public class Promtbox extends Activity {
     AlertDialog alertDialog;
     private String selectedItem;
     Intent intent;
-    final CharSequence[] items = {"15 min later", "30 min later", "Coustomized"};
+    final CharSequence[] items = {"15 min later","30 min later", "Coustomized"};
     //MyPhoneReceiver myPhoneReceiver = new MyPhoneReceiver();
     private Context context;
     private static final String TIME_PATTERN = "HH:mm";

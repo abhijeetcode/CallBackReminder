@@ -1,6 +1,9 @@
 package com.example.a1405001.phonereceiver;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +17,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,6 +36,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        //-----------------------------------
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        Intent notificationIntent = new Intent(this, AlarmReceiver.class);
+        PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.SECOND, 5);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+
+
+
+
+        //-----------------------------------------
         attributes = new HashMap<>();
         attributes.put("NUMBER", "TEXT NOT NULL");
         attributes.put("MINUTE", "INT");
@@ -71,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 //Delete from database
                                 String query = "DELETE FROM Miscall WHERE NUMBER = '"+m_no+"';";
-                                //String query = "update Miscall set NUMBER = 123 where NUMBER = "+m_no+";";
                                 boolean b = shortdb.anyQuery(query);
                                 Log.d("querydelete ",b+" "+query);
                             }
