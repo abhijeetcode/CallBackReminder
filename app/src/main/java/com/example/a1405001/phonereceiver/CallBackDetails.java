@@ -5,11 +5,11 @@ package com.example.a1405001.phonereceiver;
  */
 
 public class CallBackDetails {
-    String moblieNumber,time,date;
+    String moblieNumber, time, date;
 
-    public  CallBackDetails()
-    {
+    public CallBackDetails() {
     }
+
     public CallBackDetails(String s, String s1, String s2) {
         this.moblieNumber = s;
         this.time = s1;
@@ -39,4 +39,5 @@ public class CallBackDetails {
     public void setDate(String date) {
         this.date = date;
     }
+
 }

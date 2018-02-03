@@ -47,13 +47,11 @@ public class MainActivity extends AppCompatActivity {
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
 
 
-
-
         //-----------------------------------------
         attributes = new HashMap<>();
         attributes.put("NUMBER", "TEXT NOT NULL");
-        attributes.put("MINUTE", "INT");
         attributes.put("HOUR", "INT");
+        attributes.put("MINUTE", "INT");
         attributes.put("DATE", "INT");
         attributes.put("MONTH", "INT");
         attributes.put("YEAR", "INT");
@@ -134,7 +132,8 @@ public class MainActivity extends AppCompatActivity {
 
         for (HashMap<String, String> hmap : list) {
             phoneNumber = hmap.get("NUMBER");
-            TT = hmap.get("MINUTE") + ":" + hmap.get("HOUR");
+            //Time format(hh:mm)
+            TT =  hmap.get("HOUR")+":"+hmap.get("MINUTE");
             DD = hmap.get("DATE") + "/" + hmap.get("MONTH") + "/" + hmap.get("YEAR");
             Log.v("NewRetriveDataToDB", phoneNumber + " " + TT + " " + DD);
             callBackDetails = new CallBackDetails(phoneNumber, TT, DD);

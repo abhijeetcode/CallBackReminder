@@ -28,7 +28,7 @@ public class AlarmReceiver extends BroadcastReceiver{
 
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Notification.Builder builder = new Notification.Builder(context);
+        Notification.Builder builder = new Notification.Builder(context).setDefaults(Notification.DEFAULT_SOUND);
 
         Notification notification = builder.setContentTitle("Demo App Notification")
                 .setContentText("New Notification From Demo App..")
@@ -36,12 +36,13 @@ public class AlarmReceiver extends BroadcastReceiver{
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentIntent(pendingIntent).build();
 
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             builder.setChannelId(CHANNEL_ID);
         }
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
+        notificationManager.cancel(1);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
                     CHANNEL_ID,
