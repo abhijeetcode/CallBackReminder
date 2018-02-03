@@ -7,13 +7,31 @@
     tools:context="com.example.a1405001.phonereceiver.ReminderUpdateRemove">
 
     <TextView
-        android:id="@+id/newActivity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Welcome"
+        android:id="@+id/mobile_number"
+        android:layout_width="214dp"
+        android:layout_height="28dp"
+        android:text="Mobile no."
         android:textSize="20dp"
-        tools:layout_editor_absoluteX="69dp"
-        tools:layout_editor_absoluteY="310dp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="26dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="210dp"
+        android:layout_height="21dp"
+        android:text="Date"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="84dp"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="216dp"
+        android:layout_height="24dp"
+        android:text="Time"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="148dp"
         tools:ignore="MissingConstraints" />
 
 </android.support.constraint.ConstraintLayout>
