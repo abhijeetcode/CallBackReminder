@@ -36,18 +36,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //-----------------------------------
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
+        final Calendar cal = Calendar.getInstance();
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent notificationIntent = new Intent(this, AlarmReceiver.class);
         PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        cal.add(Calendar.SECOND, 30);
+        //alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
 
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.SECOND, 5);
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
-
-
-        //-----------------------------------------
         attributes = new HashMap<>();
         attributes.put("NUMBER", "TEXT NOT NULL");
         attributes.put("HOUR", "INT");
@@ -74,10 +70,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view, int position) {
                 CallBackDetails movie = callList.get(position);
-                final String t_time, d_date, m_no;
+                final String m_no;
                 m_no = movie.getMoblieNumber();
-                t_time = movie.getTime();
-                d_date = movie.getDate();
                 //DialogBox
                 Toast.makeText(getApplicationContext(), movie.getMoblieNumber() + " is selected!", Toast.LENGTH_SHORT).show();
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -86,9 +80,9 @@ public class MainActivity extends AppCompatActivity {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 //Delete from database
-                                String query = "DELETE FROM Miscall WHERE NUMBER = '"+m_no+"';";
+                                String query = "DELETE FROM Miscall WHERE NUMBER = '" + m_no + "';";
                                 boolean b = shortdb.anyQuery(query);
-                                Log.d("querydelete ",b+" "+query);
+                                Log.d("querydelete ", b + " " + query);
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -105,15 +99,6 @@ public class MainActivity extends AppCompatActivity {
                 alert.setTitle(m_no);
                 alert.show();
                 setContentView(R.layout.activity_main);
-
-                /*Intent myIntent = new Intent(MainActivity.this, ReminderUpdateRemove.class);
-                myIntent.putExtra("phoneNumber", m_no);
-                myIntent.putExtra("time", t_time);
-                myIntent.putExtra("date", d_date);
-                //After click go to Another Activity
-                startActivity(myIntent);
-                */
-
             }
 
             @Override
@@ -133,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         for (HashMap<String, String> hmap : list) {
             phoneNumber = hmap.get("NUMBER");
             //Time format(hh:mm)
-            TT =  hmap.get("HOUR")+":"+hmap.get("MINUTE");
+            TT = hmap.get("HOUR") + ":" + hmap.get("MINUTE");
             DD = hmap.get("DATE") + "/" + hmap.get("MONTH") + "/" + hmap.get("YEAR");
             Log.v("NewRetriveDataToDB", phoneNumber + " " + TT + " " + DD);
             callBackDetails = new CallBackDetails(phoneNumber, TT, DD);

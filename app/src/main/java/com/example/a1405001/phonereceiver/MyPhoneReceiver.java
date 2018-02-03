@@ -16,6 +16,9 @@ public class MyPhoneReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Intent i1 = new Intent(context, AlarmReceiver.class);
+        i1.putExtra("phoneNumber", phoneNumber);
+
         Bundle extras = intent.getExtras();
         if (extras != null && extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER) != null) {
             String state = extras.getString(TelephonyManager.EXTRA_STATE);
@@ -35,8 +38,12 @@ public class MyPhoneReceiver extends BroadcastReceiver {
 
     private void displayDialog(Context context) {
         Intent i = new Intent(context, Promtbox.class);
+
         i.putExtra("phoneNumber", phoneNumber);
+
+
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(i);
+
     }
 }

@@ -3,6 +3,7 @@ package com.example.a1405001.phonereceiver;
 /**
  * Created by 1405001 on 03-02-2018.
  */
+
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -15,7 +16,10 @@ import android.os.Build;
 
 import static android.app.NotificationManager.IMPORTANCE_DEFAULT;
 
-public class AlarmReceiver extends BroadcastReceiver{
+public class AlarmReceiver extends BroadcastReceiver {
+    //DataBase Shemea
+    Intent intent;
+    String phone_number;
     private static final String CHANNEL_ID = "com.singhajit.notificationDemo.channelId";
 
     @Override
@@ -30,9 +34,10 @@ public class AlarmReceiver extends BroadcastReceiver{
 
         Notification.Builder builder = new Notification.Builder(context).setDefaults(Notification.DEFAULT_SOUND);
 
-        Notification notification = builder.setContentTitle("Demo App Notification")
-                .setContentText("New Notification From Demo App..")
-                .setTicker("New Message Alert!")
+        
+        Notification notification = builder.setContentTitle("Callback Reminder")
+                .setContentText("Notification From PhoneRecever..")
+                .setTicker("Mobile")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentIntent(pendingIntent).build();
 
