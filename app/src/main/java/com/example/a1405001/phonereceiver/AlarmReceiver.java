@@ -19,7 +19,7 @@ import static android.app.NotificationManager.IMPORTANCE_DEFAULT;
 public class AlarmReceiver extends BroadcastReceiver {
     //DataBase Shemea
     Intent intent;
-    String phone_number;
+    String phone_number="";
     private static final String CHANNEL_ID = "com.singhajit.notificationDemo.channelId";
 
     @Override
@@ -36,7 +36,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 
         Notification notification = builder.setContentTitle("Callback Reminder")
-                .setContentText("Notification From PhoneRecever..")
+                .setContentText("Missed Call")
                 .setTicker("Mobile")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentIntent(pendingIntent).build();

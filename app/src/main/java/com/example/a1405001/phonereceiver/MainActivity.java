@@ -1,11 +1,13 @@
 package com.example.a1405001.phonereceiver;
 
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -15,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -44,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent notificationIntent = new Intent(this, AlarmReceiver.class);
         PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        cal.add(Calendar.SECOND, 30);
+        cal.add(Calendar.SECOND, 10);
         //alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
 
         attributes = new HashMap<>();
@@ -86,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
                                 String query = "DELETE FROM Miscall WHERE NUMBER = '" + m_no + "';";
                                 boolean b = shortdb.anyQuery(query);
                                 Log.d("querydelete ", b + " " + query);
+                                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                                startActivity(intent);
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -127,5 +132,13 @@ public class MainActivity extends AppCompatActivity {
             callBackDetails = new CallBackDetails(phoneNumber, TT, DD);
             callList.add(callBackDetails);
         }
+    }
+
+@Override
+public void onBackPressed(){
+    Intent intent = new Intent(Intent.ACTION_MAIN);
+    intent.addCategory(Intent.CATEGORY_HOME);
+    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    startActivity(intent);
     }
 }

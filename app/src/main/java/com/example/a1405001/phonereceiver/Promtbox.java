@@ -119,6 +119,9 @@ public class Promtbox extends Activity {
 
                             Toast.makeText(getApplicationContext(), "" + phone_number + " " + mins + " " + hours + " " + year + " " + month + " " + day,
                                     Toast.LENGTH_SHORT).show();
+                            dialogInterface.cancel();
+                            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                            startActivity(intent);
 
                         } else {
                             Calendar now = Calendar.getInstance();
@@ -139,15 +142,28 @@ public class Promtbox extends Activity {
                             cal.add(Calendar.MINUTE, 15);
                             alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
 
+                            dialogInterface.cancel();
+                            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                            startActivity(intent);
 
                         }
                         dialogInterface.cancel();
+
+
+                        /*Intent in = new Intent(Promtbox.this, AlarmReceiver.class);
+                        in.putExtra("number", phone_number);
+                        startActivity(in);
+                        */
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.cancel();
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.addCategory(Intent.CATEGORY_HOME);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
                     }
                 });
         levelDialog = builder.create();
@@ -186,10 +202,14 @@ public class Promtbox extends Activity {
 
                 //Notify me by Notifiacation
                 calendar.set(Calendar.HOUR_OF_DAY, hours);
-                cal.set(Calendar.MINUTE, mins);
+                //cal.set(Calendar.MINUTE, mins);
+                //cal.set(Calendar.HOUR,hours);
+                cal.set(Calendar.SECOND,5);
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
 
                 alertDialog.dismiss();
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
             }
         });
         alertDialog.setView(dialogView);
