@@ -1,8 +1,13 @@
 # F22 Android
 
-##### Run : Android ff2_Question1
-```shell
-```
+Below are the Scrrenshots and Video of the app.
+Note - For showing notification in Demo video, I have set the notification time to 5 seconds from current time but in actual it will notify thw user at specified time.
+
+### APK File
+[Click Here For APK](https://drive.google.com/open?id=1boQefJB2Ga11VwzRkJxFQFfbK0tROzgY)
+### Demo Video
+[Demo Video Link](https://drive.google.com/open?id=1Pgfd39Uxkyi5E0UR6MUbiuvX_EAkul13)
+
 ##### All callback reminder Screen Shot1    
 ![Imgur](https://i.imgur.com/3V3EK5o.png)
 
