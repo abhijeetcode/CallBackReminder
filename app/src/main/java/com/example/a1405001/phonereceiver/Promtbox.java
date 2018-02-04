@@ -78,14 +78,14 @@ public class Promtbox extends Activity {
                 switch (num) {
                     case 0:
                         selectedItem = (String) items[num];
-                        Log.d("debugg",num+"");
+                        Log.d("debugg", num + "");
                         break;
                     case 1:
                         selectedItem = (String) items[num];
                         break;
                     case 2:
                         selectedItem = (String) items[num];
-                        Log.d("debugg",num+"");
+                        Log.d("debugg", num + "");
                         break;
                 }
             }
@@ -98,8 +98,8 @@ public class Promtbox extends Activity {
                         SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
                         if (selectedItem == "Coustomized") {
                             DisplayTimeDate();
-                        } else if (selectedItem=="30 min later"){
-                            Log.d("Radiobutton ","30 min");
+                        } else if (selectedItem == "30 min later") {
+                            Log.d("Radiobutton ", "30 min");
                             Calendar now1 = Calendar.getInstance();
                             now1.add(Calendar.MINUTE, 30);
                             year = now1.get(Calendar.YEAR);
@@ -120,7 +120,7 @@ public class Promtbox extends Activity {
                             Toast.makeText(getApplicationContext(), "" + phone_number + " " + mins + " " + hours + " " + year + " " + month + " " + day,
                                     Toast.LENGTH_SHORT).show();
                             dialogInterface.cancel();
-                            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(intent);
 
                         } else {
@@ -135,7 +135,7 @@ public class Promtbox extends Activity {
                             mins = Integer.parseInt((arrOfStr[1]));
                             Toast.makeText(getApplicationContext(), "" + phone_number + " " + mins + " " + hours + " " + year + " " + month + " " + day, Toast.LENGTH_LONG).show();
                             //Insert into dataDB
-                            Log.d("Radiobutton ","15 min");
+                            Log.d("Radiobutton ", "15 min");
                             InsertData(phone_number, hours, mins, year, month, day);
 
                             //Notify by Notifiction
@@ -143,17 +143,11 @@ public class Promtbox extends Activity {
                             alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
 
                             dialogInterface.cancel();
-                            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(intent);
 
                         }
                         dialogInterface.cancel();
-
-
-                        /*Intent in = new Intent(Promtbox.this, AlarmReceiver.class);
-                        in.putExtra("number", phone_number);
-                        startActivity(in);
-                        */
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -198,17 +192,17 @@ public class Promtbox extends Activity {
 
                 //Insert into DataDB
                 InsertData(phone_number, hours, mins, year, month, day);
-                Toast.makeText(getApplicationContext(), "Inserted",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Inserted", Toast.LENGTH_SHORT).show();
 
                 //Notify me by Notifiacation
                 calendar.set(Calendar.HOUR_OF_DAY, hours);
                 cal.set(Calendar.MINUTE, mins);
-                cal.set(Calendar.HOUR,hours);
+                cal.set(Calendar.HOUR, hours);
                 //cal.set(Calendar.SECOND,5);
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
 
                 alertDialog.dismiss();
-                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
             }
         });

@@ -1,13 +1,10 @@
 package com.example.a1405001.phonereceiver;
 
 import android.Manifest;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -18,12 +15,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.DialogOnDeniedPermissionListener;
+import com.karumi.dexter.listener.single.PermissionListener;
+import com.karumi.dexter.listener.single.SnackbarOnDeniedPermissionListener;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -43,13 +44,49 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final Calendar cal = Calendar.getInstance();
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent notificationIntent = new Intent(this, AlarmReceiver.class);
-        PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        cal.add(Calendar.SECOND, 10);
-        //alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+        //Runtime permission
+        Dexter.withActivity(this)
+                .withPermission(Manifest.permission.READ_PHONE_STATE)
+                .withListener(new PermissionListener() {
+                    public View view;
 
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse response) {
+                        PermissionListener permissionListener = DialogOnDeniedPermissionListener.Builder
+                                .withContext(getApplicationContext())
+                                .withTitle("Call log Read Prmissiom")
+                                .withMessage("Call log Permission is needed to take incoming call details")
+                                .withButtonText("Ok")
+                                .withIcon(R.drawable.ic_phone_missed_black_24dp)
+                                .build();
+                    }
+
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse response) {
+
+                        PermissionListener snackbarPermissionListener =
+                                SnackbarOnDeniedPermissionListener.Builder
+                                        .with(view, "Call log access is needed")
+                                        .withOpenSettingsButton("Settings")
+                                        .withCallback(new Snackbar.Callback() {
+                                            @Override
+                                            public void onShown(Snackbar snackbar) {
+                                                // Event handler for when the given Snackbar is visible
+                                            }
+
+                                            @Override
+                                            public void onDismissed(Snackbar snackbar, int event) {
+                                                // Event handler for when the given Snackbar has been dismissed
+                                            }
+                                        }).build();
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+
+                    }
+                }).check();
+        //Database Stricture
         attributes = new HashMap<>();
         attributes.put("NUMBER", "TEXT NOT NULL");
         attributes.put("HOUR", "INT");
@@ -89,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                                 String query = "DELETE FROM Miscall WHERE NUMBER = '" + m_no + "';";
                                 boolean b = shortdb.anyQuery(query);
                                 Log.d("querydelete ", b + " " + query);
-                                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(intent);
                             }
                         })
@@ -134,11 +171,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-@Override
-public void onBackPressed(){
-    Intent intent = new Intent(Intent.ACTION_MAIN);
-    intent.addCategory(Intent.CATEGORY_HOME);
-    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    startActivity(intent);
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }
